@@ -180,3 +180,87 @@ class UnionAndFind{
     }
 }
 ```
+## 547. Number of Provinces
+There are n cities. Some of them are connected, while some are not. If city a is connected directly with city b, and city b is connected directly with city c, then city a is connected indirectly with city c.
+A province is a group of directly or indirectly connected cities and no other cities outside of the group.
+You are given an n x n matrix isConnected where isConnected[i][j] = 1 if the ith city and the jth city are directly connected, and isConnected[i][j] = 0 otherwise.
+Return the total number of provinces.
+Example 1:
+```
+Input: isConnected = [[1,1,0],[1,1,0],[0,0,1]]
+Output: 2
+```
+Example 2:
+```
+Input: isConnected = [[1,0,0],[0,1,0],[0,0,1]]
+Output: 3
+```
+
+Constraints:
+```
+1 <= n <= 200
+n == isConnected.length
+n == isConnected[i].length
+isConnected[i][j] is 1 or 0.
+isConnected[i][i] == 1
+isConnected[i][j] == isConnected[j][i]
+```
+Resource：LeetCode
+Link：https://leetcode-cn.com/problems/evaluate-division
+The copyright belongs to Lingkou Network. For commercial reprints, please contact the official authorization. For non-commercial reprints, please indicate the source.
+### Solution
+Apparently, it's a union and found set problem. The result is the count of the set size.
+```java
+class Solution{
+    public int findCircleNum(int[][] M){
+        int n = M.length;
+        UnionAndFind uaf = new UnionAndFind(n);
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j < M[0].length; j++){
+                if(M[i][j] == 1){
+                    uaf.union(i, j);
+                }
+            }
+        }
+        return uf.count();
+    }
+}
+
+class UnionAndFind{
+    private int[] parent;
+    private int count;
+    private int[] weight;
+
+    public UnionAndFind(int n){
+        this.parent = new int[n];
+        this.count = n;
+        this.weight = new int[n];
+        for(int i = 0; i < n; i++){
+            parent[i] = i;
+            weight[i] = 1;
+        }
+    }
+
+    public int find(int x){
+        while(parent[x] != x){
+            parent[x] = parent[parent[x]];
+            x = parent[x];
+        }
+        return x;
+    }
+
+    public void union(int x, int y){
+        int find_x = find(x);
+        int find_y = find(y);
+        if(find_x == find_y)return;
+         if (size[rootP] > size[rootQ]) {
+             parent[rootQ] = rootP;
+                    size[rootP] += size[rootQ];
+                } else {
+                    parent[rootP] = rootQ;
+                    size[rootQ] += size[rootP];
+                }
+                count--;
+    }
+}
+```
