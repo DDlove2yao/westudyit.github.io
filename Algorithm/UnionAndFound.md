@@ -1,6 +1,18 @@
 # Union And Find Set
 Nowadays, the everyday questions on the leetcode were all related to union and find set. So I write down this blog to summary the knowledge of the set.
 My main development language is Java, so all of the source code will be programmed in Java.
+<!-- TOC -->
+
+- [Union And Find Set](#union-and-find-set)
+    - [About the union and find set](#about-the-union-and-find-set)
+    - [391 Evaluate Division](#391-evaluate-division)
+        - [Solution](#solution)
+    - [547. Number of Provinces](#547-number-of-provinces)
+        - [Solution](#solution-1)
+    - [684 Redunant Connection](#684-redunant-connection)
+        - [Solution](#solution-2)
+
+<!-- /TOC -->
 ## About the union and find set
 Accordig to wikipedia, the union and find set is a tree-like data structure which is used to deal with disjoint sets problems.
 There are two main functions in the set: union and find.
@@ -300,3 +312,48 @@ Link：https://leetcode-cn.com/problems/evaluate-division
 The copyright belongs to Lingkou Network. For commercial reprints, please contact the official authorization. For non-commercial reprints, please indicate the source.
 
 ### Solution
+According to the question description, we should try not generate a circle in the graph.We should delete the last edge in the given array.
+
+The code shows as following:
+```java
+public class Solution{
+
+public int[] findRedundantConnection(int[][] edges){
+        int n = edges.length;
+        UnionAndFind uaf = new UnionAndFind(n);
+        for(int i = 0; i < n; i++){
+            int[] edge = edges[i];
+            int node1 = edge[0], node2 = edge[1];
+            if(uaf.find(node1) != uaf.find(node2)){
+                // they wont generate a circle
+                uaf.union(node1, node2);
+            }else return edge;
+        }
+        //no circle
+        return new int[0];
+    }
+}
+
+class UnionAndFind{
+    private int[] parent;
+    public UnionAndFind(int n){
+        this.parent = new int[n];
+        for(int i = 0; i < n; i++){
+            parent[i] = i;
+        }
+    }
+    public void union(int x, int y){
+        int find_x = find(x);
+        int find_y = find(y);
+        if(find_x != find_y)return;
+        parent[find_x] = find_y;
+    }
+
+    public int find(int x){
+        if(parent[x] != x){
+            parent[x] = find(parent[x]); 
+        }
+        return parent[x];
+    }
+}
+```
