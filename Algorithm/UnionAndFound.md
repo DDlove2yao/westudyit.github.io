@@ -262,5 +262,9 @@ class UnionAndFind{
                 }
                 count--;
     }
+
+    public int count(){
+        return count;
+    }
 }
 ```
