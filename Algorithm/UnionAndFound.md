@@ -11,7 +11,10 @@ My main development language is Java, so all of the source code will be programm
         - [Solution](#solution-1)
     - [684 Redunant Connection](#684-redunant-connection)
         - [Solution](#solution-2)
-
+    - [947.Most Stone Removed with Same Row or Column](#947-most-stone-removed-with-same-row-or-column)
+        - [Solution](#solution-3)
+    - [1319.Number of Operations to Make Network Connected](#1319-number-of-operations-to-make-network-connected)
+        - [Solution](solution-4)    
 <!-- /TOC -->
 ## About the union and find set
 Accordig to wikipedia, the union and find set is a tree-like data structure which is used to deal with disjoint sets problems.
