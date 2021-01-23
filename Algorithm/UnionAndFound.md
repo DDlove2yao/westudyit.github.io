@@ -265,12 +265,12 @@ class UnionAndFind{
         int find_x = find(x);
         int find_y = find(y);
         if(find_x == find_y)return;
-         if (size[rootP] > size[rootQ]) {
-             parent[rootQ] = rootP;
-                    size[rootP] += size[rootQ];
+         if (size[find_x] > size[find+y]) {
+             parent[find_y] = find_x;
+                    size[find_x] += size[find_y];
                 } else {
-                    parent[rootP] = rootQ;
-                    size[rootQ] += size[rootP];
+                    parent[find_x] = find_y;
+                    size[find_y] += size[find_x];
                 }
                 count--;
     }
@@ -448,5 +448,91 @@ class UnionAndFind{
     }
 
     public int count(){rteurn count;}
+}
+```
+### 1319.Number of Operations to Make Network Connected
+There are n computers numbered from 0 to n-1 connected by ethernet cables connections forming a network where connections[i] = [a, b] represents a connection between computers a and b. Any computer can reach any other computer directly or indirectly through the network.
+Given an initial computer network connections. You can extract certain cables between two directly connected computers, and place them between any pair of disconnected computers to make them directly connected. Return the minimum number of times you need to do this in order to make all the computers connected. If it's not possible, return -1. 
+Example 1:
+```
+Input: n = 4, connections = [[0,1],[0,2],[1,2]]
+Output: 1
+Explanation: Remove cable between computer 1 and 2 and place between computers 1 and 3.
+```
+Example 2:
+```
+Input: n = 6, connections = [[0,1],[0,2],[0,3],[1,2],[1,3]]
+Output: 2
+```
+Example 3:
+```
+Input: n = 6, connections = [[0,1],[0,2],[0,3],[1,2]]
+Output: -1
+Explanation: There are not enough cables.
+```
+Example 4:
+```
+Input: n = 5, connections = [[0,1],[0,2],[3,4],[2,3]]
+Output: 0
+```
+Constraints:
+- 1 <= n <= 10^5
+- 1 <= connections.length <= min(n*(n-1)/2, 10^5)
+- connections[i].length == 2
+- 0 <= connections[i][0], connections[i][1] < n
+- connections[i][0] != connections[i][1]
+- There are no repeated connections.
+- No two computers are connected by more than one cable.
+
+Resource：LeetCode
+Link：https://leetcode-cn.com/problems/evaluate-division
+The copyright belongs to Lingkou Network. For commercial reprints, please contact the official authorization. For non-commercial reprints, please indicate the source.
+
+### Solution
+We can know that for n computers, we need n-1 lines to connect all of the computers.
+So if the number of connections + 1 < n, we return -1. It means that we cannot connect all the computers.
+Here we use the union and find set to maintain the computers connected. finally we return the size of the set subtract 1.
+
+```java
+class Solution{
+    public int makeConnected(int n, int[][] connected){
+        int len = connected.length;
+        UnionAndFind uaf = new UnionAndFind(n);
+        if(len + 1 < n)return -1;
+        for(int i = 0; i < len; i++){
+            uaf.union(connected[i][0], connected[i][1]);
+        }
+        return uaf.count()-1;
+    }
+}
+
+class UnionAndFind{
+    private int[] parent;
+    private int count;
+    
+    public UnionAndFind(int n){
+        this.count = n;
+        this.parent = new int[n];
+        for(int i = 0; i < n; i++){
+            parent[i] = i;
+        }
+    }
+    
+    public int find(int x){
+        if(x != parent[x]){
+            parent[x] = find(parent[x]);
+        }
+        return parent[x];
+    }
+    
+    public void union(int x, int y){
+        int find_x = find(x);
+        int find_y = find(y);
+        if(find_x == find_y)return;
+        parent[find_x] = find_y;
+        count--;
+    }
+
+    public int count(){return this.count;}
 }
 ```
